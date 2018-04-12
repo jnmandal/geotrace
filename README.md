@@ -1,21 +1,42 @@
 # Geotrace
 
-**TODO: Add description**
+A contrived example application for demoing erlang concurrency/distribution
 
-## Installation
+Useful things
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `geotrace` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:geotrace, "~> 0.1.0"}
-  ]
-end
+get the pid of your shell
+```
+self()
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/geotrace](https://hexdocs.pm/geotrace).
+empty (and view contents of) your mailbox
+```
+flush()
+```
 
+get the name of your node
+```
+node()
+```
+
+boot a session that can be joined by other nodes
+```
+$ iex --name john@<ip address> --cookie wyzant -S mix
+```
+
+connect to another session
+```
+Node.connect(:"john@92.168.1.12")
+```
+
+view other nodes in the cluster
+```
+Node.list()
+```
+
+call the Geotrace Server
+```
+john = Node.list() |> List.first()
+GenServer.call({GT, john}, :history) # see what everyone is tracing
+GenServer.call({GT, john}, {:geocode, "The Acropolis"}) # perform a geocode call
+```
