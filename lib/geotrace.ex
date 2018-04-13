@@ -3,11 +3,13 @@ defmodule Geotrace do
   Documentation for Geotrace.
   """
 
-  def geocode_async(query) do
+  @server_name GT
 
+  def geocode_async(query) do
+    GenServer.call(@server_name, {:geocode, query})
   end
 
-  def read_geocoding_history() do
-
+  def query_history() do
+    GenServer.call(@server_name, :history)
   end
 end
